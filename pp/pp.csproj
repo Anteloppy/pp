@@ -107,9 +107,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="entities\Address.cs" />
+    <Compile Include="entities\Bank.cs" />
+    <Compile Include="entities\City.cs" />
+    <Compile Include="entities\Contact_info.cs" />
+    <Compile Include="entities\Course.cs" />
+    <Compile Include="entities\Course_journal.cs" />
     <Compile Include="entities\Department.cs" />
+    <Compile Include="entities\District.cs" />
     <Compile Include="entities\Personal_card.cs" />
+    <Compile Include="entities\Personel_reserve.cs" />
     <Compile Include="entities\Position.cs" />
+    <Compile Include="entities\Regoin.cs" />
+    <Compile Include="entities\Street.cs" />
     <Compile Include="entities\Structure.cs" />
     <Compile Include="entities\Work_schedule.cs" />
     <Compile Include="wins\Personal_cards_page.xaml.cs">

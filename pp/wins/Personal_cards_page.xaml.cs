@@ -49,19 +49,13 @@ namespace pp.wins
                         record.name = reader.GetString("");
                         record.surname = reader.GetString("");
                         record.birht_date = reader.GetString("");
-                        record.region = reader.GetString("");
-                        record.district = reader.GetString("");
-                        record.settlement = reader.GetString("");
-                        record.street = reader.GetString("");
-                        record.house_number = reader.GetString("");
-                        record.flat_number = reader.GetString("");
-                        record.bank = reader.GetString("");
+                        record.fk_address = reader.GetString("");
+                        record.fk_bank = reader.GetString("");
                         record.bank_account = reader.GetString("");
                         record.INN = reader.GetString("");
                         record.SNILS = reader.GetString("");
                         record.employment_date = reader.GetString("");
                         record.dismissal_date = reader.GetString("");
-                        record.work_schedule = reader.GetString("");
 
                         personal_cards.Add(record);
                     }

@@ -3,9 +3,9 @@ create database if not exists employees_database;
 use employees_database;
 
 #drop database employees_database; commit;
-#contact_info, personnel_reserve, personal_cards, addreses, cities, structure, raions
 
 -- Справочники:
+
 -- Таблица "Справочник структурных подразделений"
 create table if not exists departments (
     id_department int auto_increment primary key,
@@ -124,6 +124,7 @@ create table if not exists contact_info (
     landline_phone varchar(20),
     email varchar(255),
     supervisor_id int,
+	foreign key (person_id) references personal_cards(id_person),
     foreign key (position_id) references positions(id_position),
     foreign key (department_id) references departments(id_department)
 );
@@ -211,3 +212,5 @@ insert into qualification_course_journal (course_id, person_id, start_date, end_
 
 -- Добавление данных в таблицу "Personnel Reserve"
 insert into personnel_reserve (person_id, structure_id, reserve_entry_date, reserve_exit_date, reserve_status, new_structure, work_schedule_id) values (1, 1, '2021-01-01', null, 'В резерве', null, 1), (2, 2, null, null, 'Не в резерве', null, 1);
+
+commit;
