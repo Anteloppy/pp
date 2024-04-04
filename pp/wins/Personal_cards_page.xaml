@@ -7,8 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Personal_cards_page">
-
     <Grid>
-        <DataGrid x:Name="DGpersonal_cards" AutoGenerateColumns="True" MouseRightButtonUp="DGpersonal_cards_MouseRightButtonUp"/>
+        <DataGrid x:Name="DGpersonal_cards" AutoGenerateColumns="True" MouseRightButtonDown="DGpersonal_cards_MouseRightButtonDown" MouseRightButtonUp="DGpersonal_cards_MouseRightButtonUp" MouseDoubleClick="DGpersonal_cards_MouseDoubleClick"/>
     </Grid>
 </Page>

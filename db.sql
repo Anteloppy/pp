@@ -165,6 +165,7 @@ create table if not exists personnel_reserve (
 
 
 -- Добавление в справочники:
+
 -- Добавление данных в таблицу "Departments"
 insert into departments (department_name) values ('Маркетинговый отдел'), ('Отдел кадров');
 
@@ -196,10 +197,10 @@ insert into districts (district_name, region_id) values ('Северный ра�
 insert into cities (city_name, district_id) values ('Абакан', 1), ('Новосибирск', 2), ('Красноярск', 2);
 
 -- Добавление данных в таблицу "Addresses"
-insert into addresses (city_id, street_id, house_number, flat_number) values (1, 1, '30', 3);
+insert into addresses (city_id, street_id, house_number, flat_number) values (1, 1, '30', 3), (2, 2, '4A', 15);
 
 -- Добавление данных в таблицу "Personal Cards"
-insert into personal_cards (last_name, name, surname, birth_date, address_id, bank_id, bank_account, INN, SNILS, employment_date, dismissal_date) values ('Ефремов', 'Ефрем', 'Георгьевич', '1990-05-15', 1, 1, '1234567890123456', '123456789012', '12345678901234', '2020-01-01', null), ('Терентьева', 'Зинаида', 'Авксентьевна', '1980-02-12', 1, 1, '1234567890123456', '123456789012', '12345678901234', '2020-01-01', null);
+insert into personal_cards (last_name, name, surname, birth_date, address_id, bank_id, bank_account, INN, SNILS, employment_date, dismissal_date) values ('Ефремов', 'Ефрем', 'Георгьевич', '1990-05-15', 1, 1, '1234567890123456', '123456789012', '12345678901234', '2020-01-01', null), ('Терентьева', 'Зинаида', 'Авксентьевна', '1980-02-12', 2, 2, '1234567890123456', '123456789012', '12345678901234', '2019-10-01', null);
 
 -- Добавление данных в таблицу "Structure"
 insert into structure (department_id, position_id, salary, bonus) values (1, 1, 35000.00, 2000.00), (2, 1, 50000.00, 5000.00);

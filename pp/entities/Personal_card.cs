@@ -12,7 +12,7 @@ namespace pp.entities
         public string last_name { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
-        public string birht_date { get; set; }
+        public string birth_date { get; set; }
         public string fk_address { get; set; }
         public string fk_bank { get; set; }
         public string bank_account { get; set; }
