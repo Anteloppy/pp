@@ -1,4 +1,6 @@
-﻿using pp.wins;
+﻿using pp.edit_wins;
+using pp.entities;
+using pp.wins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,8 +51,8 @@ namespace pp
         {
             var si = LBOption.SelectedIndex;
             switch (si) {
-                case 0: Mframe.Navigate(new Personal_cards_page()); Title = "Персональные карточки сотрудников"; break;
-                case 1: Title = "Список структурных подразделений"; break;
+                case 0: Mframe.Navigate(new Personal_cards_page()); Title = "Персональные карты сотрудников"; break;
+                case 1: Mframe.Navigate(new Department_page()); Title = "Список структурных подразделений"; break;
                 case 2: Title = "Список должностей"; break;
                 case 3: Title = "Структура"; break;
                 case 4: Title = "Справочник графиков работы"; break;

@@ -1,4 +1,6 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
+using pp.edit_wins;
 using pp.entities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace pp.wins
 {
@@ -36,7 +39,7 @@ namespace pp.wins
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select pc.id_person, pc.last_name, pc.name, pc.surname, pc.birth_date, concat(c.city_name, ' ', s.street_name, ' ', a.house_number, ' ', a.flat_number) as address, b.bank_name as bank, pc.bank_account, pc.INN, pc.SNILS, pc.employment_date, pc.dismissal_date from personal_cards as pc join addresses as a on pc.address_id = a.id_address join cities as c on a.city_id = c.id_city join streets as s on a.street_id = s.id_street join banks as b on pc.bank_id = b.id_bank", conn);
+                MySqlCommand cmd = new MySqlCommand("select pc.id_person, pc.last_name, pc.name, pc.surname, pc.birth_date, pc.address_id, concat(c.city_name, ' ', s.street_name, ' ', a.house_number, ' ', a.flat_number) as address, pc.bank_id, b.bank_name as bank, pc.bank_account, pc.INN, pc.SNILS, pc.employment_date, pc.dismissal_date from personal_cards as pc join addresses as a on pc.address_id = a.id_address join cities as c on a.city_id = c.id_city join streets as s on a.street_id = s.id_street join banks as b on pc.bank_id = b.id_bank", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -63,38 +66,6 @@ namespace pp.wins
             DGpersonal_cards.ItemsSource = personal_cards;
         }
 
-        private void DGpersonal_cards_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
-            Delete_Click(si);
-        }
-
-        private void Delete_Click(Personal_card si)
-        {
-            MessageBoxResult result = MessageBox.Show("удалить строку с id " + si.id_person + "?", "подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
-            {
-                string delete = "delete from personal_cards where id = @id; commit;";
-                MySqlConnection conn = new MySqlConnection(connectionString);
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(delete, conn);
-                cmd.Parameters.AddWithValue("@id", si.id_person);
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                MessageBox.Show("personal card с id " + si.id_person + "  удалена");
-            }
-        }
-        private void Edit_Click(Personal_card si)
-        {
-            MessageBox.Show(Convert.ToString(si.id_person));
-        }
-
-        private void DGpersonal_cards_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
-            Edit_Click(si);
-        }
-
         private void DGpersonal_cards_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
@@ -106,6 +77,51 @@ namespace pp.wins
                     row.IsSelected = true;
                 }
                 else row.IsSelected = true;
+            }
+        }
+
+        private void DGpersonal_cards_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Delete_Click();
+        }
+
+        private void DGpersonal_cards_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Edit_Click();
+        }
+
+        private void BEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Edit_Click();
+        }
+
+        private void BDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Delete_Click();
+        }
+
+        private void Edit_Click()
+        {
+            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
+            EditWindow ew = new EditWindow();
+            ew.Show();
+            ew.frameM.Navigate(new Personal_cards_edit_page(si.id_person, si.last_name, si.name, si.surname, si.birth_date, si.fk_address, si.fk_bank, si.bank_account, si.INN, si.SNILS, si.employment_date, si.dismissal_date));
+        }
+
+        private void Delete_Click()
+        {
+            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("удалить строку с id " + si.id_person + "?", "подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                string delete = "delete from personal_cards where id = @id; commit;";
+                MySqlConnection conn = new MySqlConnection(connectionString);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(delete, conn);
+                cmd.Parameters.AddWithValue("@id", si.id_person);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("personal card с id " + si.id_person + "  удалена");
             }
         }
     }

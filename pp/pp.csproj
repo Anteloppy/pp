@@ -107,6 +107,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditWindow.xaml.cs">
+      <DependentUpon>EditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit_wins\Department_edit_page.xaml.cs">
+      <DependentUpon>Department_edit_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit_wins\Personal_cards_edit_page.xaml.cs">
+      <DependentUpon>Personal_cards_edit_page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="entities\Address.cs" />
     <Compile Include="entities\Bank.cs" />
     <Compile Include="entities\City.cs" />
@@ -122,9 +131,24 @@
     <Compile Include="entities\Street.cs" />
     <Compile Include="entities\Structure.cs" />
     <Compile Include="entities\Work_schedule.cs" />
+    <Compile Include="wins\Department_page.xaml.cs">
+      <DependentUpon>Department_page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="wins\Personal_cards_page.xaml.cs">
       <DependentUpon>Personal_cards_page.xaml</DependentUpon>
     </Compile>
+    <Page Include="EditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit_wins\Department_edit_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit_wins\Personal_cards_edit_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -137,6 +161,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="wins\Department_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="wins\Personal_cards_page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,6 +197,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="search.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
