@@ -10,5 +10,9 @@ namespace pp.entities
     {
         public int id_department{ get; set; }
         public string department_name { get; set; }
+        public override string ToString()
+        {
+            return department_name;
+        }
     }
 }

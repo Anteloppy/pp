@@ -107,6 +107,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddWindow.xaml.cs">
+      <DependentUpon>AddWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="add_wins\Department_add_page.xaml.cs">
+      <DependentUpon>Department_add_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="add_wins\Personal_card_add_page.xaml.cs">
+      <DependentUpon>Personal_card_add_page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
@@ -127,16 +136,46 @@
     <Compile Include="entities\Personal_card.cs" />
     <Compile Include="entities\Personel_reserve.cs" />
     <Compile Include="entities\Position.cs" />
-    <Compile Include="entities\Regoin.cs" />
+    <Compile Include="entities\Region.cs" />
     <Compile Include="entities\Street.cs" />
     <Compile Include="entities\Structure.cs" />
     <Compile Include="entities\Work_schedule.cs" />
+    <Compile Include="wins\Bank_page.xaml.cs">
+      <DependentUpon>Bank_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wins\Course_page.xaml.cs">
+      <DependentUpon>Course_page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="wins\Department_page.xaml.cs">
       <DependentUpon>Department_page.xaml</DependentUpon>
     </Compile>
-    <Compile Include="wins\Personal_cards_page.xaml.cs">
-      <DependentUpon>Personal_cards_page.xaml</DependentUpon>
+    <Compile Include="wins\Personal_card_page.xaml.cs">
+      <DependentUpon>Personal_card_page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="wins\Position_page.xaml.cs">
+      <DependentUpon>Position_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wins\Region_page.xaml.cs">
+      <DependentUpon>Region_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wins\Street_page.xaml.cs">
+      <DependentUpon>Street_page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wins\Work_schedule_page.xaml.cs">
+      <DependentUpon>Work_schedule_page.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="add_wins\Department_add_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="add_wins\Personal_card_add_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,11 +200,35 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="wins\Bank_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wins\Course_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="wins\Department_page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="wins\Personal_cards_page.xaml">
+    <Page Include="wins\Personal_card_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wins\Position_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wins\Region_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wins\Street_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wins\Work_schedule_page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

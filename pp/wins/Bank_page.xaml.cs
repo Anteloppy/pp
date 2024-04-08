@@ -19,44 +19,44 @@ using System.Windows.Shapes;
 namespace pp.wins
 {
     /// <summary>
-    /// Логика взаимодействия для Department_page.xaml
+    /// Логика взаимодействия для Bank_page.xaml
     /// </summary>
-    public partial class Department_page : Page
+    public partial class Bank_page : Page
     {
-        public Department_page()
+        public Bank_page()
         {
             InitializeComponent();
             LoadData();
         }
-        private void Department_page_Activated(object sender, EventArgs e)
+        private void Bank_page_Activated(object sender, EventArgs e)
         {
             LoadData();
         }
         static string connectionString = "server=localhost; port=3306; database=employees_database; user=root; password=Nimda123;";
-        public void LoadData()
+        private void LoadData()
         {
-            List<Department> departments = new List<Department>();
+            List<Bank> banks = new List<Bank>();
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select id_department as id, department_name as name from departments", conn);
+                MySqlCommand cmd = new MySqlCommand("select id_bank as id, bank_name as name from banks", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Department record = new Department();
-                        record.id_department = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
-                        record.department_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
+                        Bank record = new Bank();
+                        record.id_bank = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
+                        record.bank_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
 
-                        departments.Add(record);
+                        banks.Add(record);
                     }
                 }
             }
-            DGdepartment.ItemsSource = departments;
+            DGbank.ItemsSource = banks;
         }
 
-        private void DGdepartment_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void DGbank_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
             if (row != null)
@@ -69,43 +69,49 @@ namespace pp.wins
                 else row.IsSelected = true;
             }
         }
-        private void DGdepartment_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+
+        private void DGbank_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Delete_Click();
         }
-        private void DGdepartment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+        private void DGbank_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit_Click();
         }
+
         private void BEdit_Click(object sender, RoutedEventArgs e)
         {
             Edit_Click();
         }
+
         private void BDelete_Click(object sender, RoutedEventArgs e)
         {
             Delete_Click();
         }
+
         private void Edit_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
+            Personal_card si = (Personal_card)DGbank.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            ew.frameM.Navigate(new Department_edit_page(si.id_department, si.department_name));
+            //ew.frameM.Navigate(new Bank_edit_page(si.id_bank, si.bank_name));
         }
+
         private void Delete_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
-            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_department + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            Bank si = (Bank)DGbank.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_bank + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                string delete = "delete from departments where id_department = @id; commit;";
+                string delete = "delete from banks where id_bank = @id; commit;";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(delete, conn);
-                cmd.Parameters.AddWithValue("@id", si.id_department);
+                cmd.Parameters.AddWithValue("@id", si.id_bank);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Department с id " + si.id_department + " удалено");
+                MessageBox.Show("Bank с id " + si.id_bank + " удалено");
             }
         }
     }

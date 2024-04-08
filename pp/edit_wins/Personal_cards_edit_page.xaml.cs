@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace pp.edit_wins
 {
@@ -103,17 +104,75 @@ namespace pp.edit_wins
 
         private void BEdit_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("edited " + TBid_person);
+            MessageBox.Show("editing " + TBid_person.Text);
+            string edit = "";
+            if (string.IsNullOrEmpty(TBlast_name.Text) || string.IsNullOrEmpty(TBname.Text) || string.IsNullOrEmpty(TBsurname.Text))
+            {
+                MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите продолжить? Есть пустые поля.", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    edit = "update personal_cards set";
+                    if (!string.IsNullOrEmpty(TBlast_name.Text))
+                        edit += "last_name = '" + TBlast_name.Text + "', ";
+                    else
+                        edit += "last_name = '', ";
+                    if (!string.IsNullOrEmpty(TBname.Text))
+                        edit += "name = '" + TBname.Text + "', ";
+                    else
+                        edit += "name = '', ";
+                    if (!string.IsNullOrEmpty(TBsurname.Text))
+                        edit += "surname = '" + TBsurname.Text + "', ";
+                    else
+                        edit += "surname = '', ";
+                    if (!string.IsNullOrEmpty(TBbirth_date.Text))
+                        edit += "birth_date = '" + TBbirth_date.Text + "', ";
+                    else
+                        edit += "birth_date = '', ";
+                    if (!string.IsNullOrEmpty(CBaddress.Text))
+                        edit += "address_id = " + CBaddress.SelectedIndex + ", ";
+                    else
+                        edit += "address_id = null, ";
+                    if (!string.IsNullOrEmpty(CBbank.Text))
+                        edit += "bank_id = " + CBbank.SelectedIndex + ", ";
+                    else
+                        edit += "bank_id = null, ";
+                    if (!string.IsNullOrEmpty(TBbank_account.Text))
+                        edit += "bank_account = " + TBbank_account.Text + "', ";
+                    else
+                        edit += "bank_account = '', ";
+                    if (!string.IsNullOrEmpty(TBinn.Text))
+                        edit += "INN = " + TBinn.Text + "', ";
+                    else
+                        edit += "INN = '', ";
+                    if (!string.IsNullOrEmpty(TBsnils.Text))
+                        edit += "SNILS = '" + TBsnils.Text + "', ";
+                    else
+                        edit += "SNILS = '', ";
+                    if (!string.IsNullOrEmpty(TBbank_account.Text))
+                        edit += "employment_date = '" + TBemployment_date.Text + "', ";
+                    else
+                        edit += "employment_date = '', ";
+                    if (!string.IsNullOrEmpty(TBbank_account.Text))
+                        edit += "dismissal_date = '" + TBdismissal_date.Text + "', ";
+                    else
+                        edit += "dismissal_date =  '', ";
+                    edit += "where id_person = @id; commit;";
+                }
+                else return;
+            }
+            else
+            { edit = "update personal_cards set last_name= '" + TBlast_name.Text + "', name = '" + TBname.Text + "', surname = '" + TBsurname.Text + "', birth_date = '" + TBbirth_date.Text + "', address_id = '" + CBaddress.SelectedIndex + "', bank_id = '" + CBbank.SelectedIndex + "', bank_account = '" + TBbank_account.Text + "', INN = '" + TBinn.Text + "', SNILS = '" + TBsnils.Text + "', employment_date = '" + TBemployment_date.Text + "', dismissal_date = '" + TBdismissal_date.Text + "' where id_person = @id; commit;"; }
 
             int id = Convert.ToInt32(TBid_person.Text);
-            string edit = "update personal_cards set last_name= '" + TBlast_name.Text + "', name = '" + TBname.Text + "', surname = '" + TBsurname.Text + "', birth_date = '" + TBbirth_date.Text + "', fk_address = '" + CBaddress.Text + "', fk_bank = '" + CBbank.Text + "', bank_account = '" + TBbank_account.Text + "', INN = '" + TBinn.Text + "', SNILS = '" + TBsnils.Text + "', employment_date = '" + TBemployment_date.Text + "', dismissal_date = '" + TBdismissal_date.Text + "' where id_person = @id; commit;";
+            
             MySqlConnection conn = new MySqlConnection(connectionString);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand(edit, conn);
             cmd.Parameters.AddWithValue("@id", id);
             cmd.ExecuteNonQuery();
             conn.Close();
-            MessageBox.Show("посевная площадь с ID " + id + " изменена");
+            MessageBox.Show("карточка сотрудника с id " + id + " изменена");
         }
     }
 }

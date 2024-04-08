@@ -11,5 +11,9 @@ namespace pp.entities
         public int id_city { get; set; }
         public string city_name { get; set; }
         public string fk_district_name { get; set; }
+        public override string ToString()
+        {
+            return "район " + fk_district_name + ", г. " + city_name;
+        }
     }
 }

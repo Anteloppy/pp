@@ -19,44 +19,44 @@ using System.Windows.Shapes;
 namespace pp.wins
 {
     /// <summary>
-    /// Логика взаимодействия для Department_page.xaml
+    /// Логика взаимодействия для Course_page.xaml
     /// </summary>
-    public partial class Department_page : Page
+    public partial class Course_page : Page
     {
-        public Department_page()
+        public Course_page()
         {
             InitializeComponent();
             LoadData();
         }
-        private void Department_page_Activated(object sender, EventArgs e)
+        private void Course_page_Activated(object sender, EventArgs e)
         {
             LoadData();
         }
         static string connectionString = "server=localhost; port=3306; database=employees_database; user=root; password=Nimda123;";
         public void LoadData()
         {
-            List<Department> departments = new List<Department>();
+            List<Course> courses = new List<Course>();
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select id_department as id, department_name as name from departments", conn);
+                MySqlCommand cmd = new MySqlCommand("select id_course as id, course_name as name from courses", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Department record = new Department();
-                        record.id_department = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
-                        record.department_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
+                        Course record = new Course();
+                        record.id_course = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
+                        record.course_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
 
-                        departments.Add(record);
+                        courses.Add(record);
                     }
                 }
             }
-            DGdepartment.ItemsSource = departments;
+            DGcourse.ItemsSource = courses;
         }
 
-        private void DGdepartment_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void DGcourse_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
             if (row != null)
@@ -69,11 +69,11 @@ namespace pp.wins
                 else row.IsSelected = true;
             }
         }
-        private void DGdepartment_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void DGcourse_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Delete_Click();
         }
-        private void DGdepartment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DGcourse_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit_Click();
         }
@@ -87,25 +87,25 @@ namespace pp.wins
         }
         private void Edit_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
+            Course si = (Course)DGcourse.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            ew.frameM.Navigate(new Department_edit_page(si.id_department, si.department_name));
+            //ew.frameM.Navigate(new Course_edit_page(si.id_course, si.course_name));
         }
         private void Delete_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
-            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_department + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            Course si = (Course)DGcourse.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_course + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                string delete = "delete from departments where id_department = @id; commit;";
+                string delete = "delete from qualification_courses where id_course = @id; commit;";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(delete, conn);
-                cmd.Parameters.AddWithValue("@id", si.id_department);
+                cmd.Parameters.AddWithValue("@id", si.id_course);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Department с id " + si.id_department + " удалено");
+                MessageBox.Show("Course с id " + si.id_course + " удалено");
             }
         }
     }

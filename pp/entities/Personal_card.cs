@@ -20,5 +20,9 @@ namespace pp.entities
         public string SNILS { get; set; }
         public string employment_date { get; set; }
         public string dismissal_date { get; set; }
+        public override string ToString()
+        {
+            return last_name + " " + name + " " + surname;
+        }
     }
 }

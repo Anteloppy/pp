@@ -25,11 +25,15 @@ namespace pp.wins
     /// <summary>
     /// Логика взаимодействия для Personal_cards_page.xaml
     /// </summary>
-    public partial class Personal_cards_page : Page
+    public partial class Personal_card_page : Page
     {
-        public Personal_cards_page()
+        public Personal_card_page()
         {
             InitializeComponent();
+            LoadData();
+        }
+        private void Personal_card_page_Activated(object sender, EventArgs e)
+        {
             LoadData();
         }
         static string connectionString = "server=localhost; port=3306; database=employees_database; user=root; password=Nimda123;";
@@ -63,10 +67,10 @@ namespace pp.wins
                     }
                 }
             }
-            DGpersonal_cards.ItemsSource = personal_cards;
+            DGpersonal_card.ItemsSource = personal_cards;
         }
 
-        private void DGpersonal_cards_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void DGpersonal_card_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
             if (row != null)
@@ -80,12 +84,12 @@ namespace pp.wins
             }
         }
 
-        private void DGpersonal_cards_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void DGpersonal_card_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Delete_Click();
         }
 
-        private void DGpersonal_cards_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DGpersonal_card_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit_Click();
         }
@@ -102,7 +106,7 @@ namespace pp.wins
 
         private void Edit_Click()
         {
-            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
+            Personal_card si = (Personal_card)DGpersonal_card.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
             ew.frameM.Navigate(new Personal_cards_edit_page(si.id_person, si.last_name, si.name, si.surname, si.birth_date, si.fk_address, si.fk_bank, si.bank_account, si.INN, si.SNILS, si.employment_date, si.dismissal_date));
@@ -110,18 +114,18 @@ namespace pp.wins
 
         private void Delete_Click()
         {
-            Personal_card si = (Personal_card)DGpersonal_cards.SelectedItem;
-            MessageBoxResult result = MessageBox.Show("удалить строку с id " + si.id_person + "?", "подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            Personal_card si = (Personal_card)DGpersonal_card.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_person + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                string delete = "delete from personal_cards where id = @id; commit;";
+                string delete = "delete from personal_cards where id_person = @id; commit;";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(delete, conn);
                 cmd.Parameters.AddWithValue("@id", si.id_person);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("personal card с id " + si.id_person + "  удалена");
+                MessageBox.Show("Personal card с id " + si.id_person + " удалено");
             }
         }
     }

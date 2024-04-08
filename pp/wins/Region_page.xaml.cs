@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using pp.edit_wins;
 using pp.entities;
 using System;
 using System.Collections.Generic;
@@ -19,44 +18,44 @@ using System.Windows.Shapes;
 namespace pp.wins
 {
     /// <summary>
-    /// Логика взаимодействия для Department_page.xaml
+    /// Логика взаимодействия для Region_page.xaml
     /// </summary>
-    public partial class Department_page : Page
+    public partial class Region_page : Page
     {
-        public Department_page()
+        public Region_page()
         {
             InitializeComponent();
             LoadData();
         }
-        private void Department_page_Activated(object sender, EventArgs e)
+        private void Region_page_Activated(object sender, EventArgs e)
         {
             LoadData();
         }
         static string connectionString = "server=localhost; port=3306; database=employees_database; user=root; password=Nimda123;";
         public void LoadData()
         {
-            List<Department> departments = new List<Department>();
+            List<Region> regions = new List<Region>();
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select id_department as id, department_name as name from departments", conn);
+                MySqlCommand cmd = new MySqlCommand("select id_region as id, region_name as name from regions", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Department record = new Department();
-                        record.id_department = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
-                        record.department_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
+                        Region record = new Region();
+                        record.id_region = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
+                        record.region_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
 
-                        departments.Add(record);
+                        regions.Add(record);
                     }
                 }
             }
-            DGdepartment.ItemsSource = departments;
+            DGregion.ItemsSource = regions;
         }
 
-        private void DGdepartment_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void DGregion_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
             if (row != null)
@@ -69,11 +68,11 @@ namespace pp.wins
                 else row.IsSelected = true;
             }
         }
-        private void DGdepartment_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void DGregion_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Delete_Click();
         }
-        private void DGdepartment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DGregion_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit_Click();
         }
@@ -87,25 +86,25 @@ namespace pp.wins
         }
         private void Edit_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
+            Region si = (Region)DGregion.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            ew.frameM.Navigate(new Department_edit_page(si.id_department, si.department_name));
+            //ew.frameM.Navigate(new Region_edit_page(si.id_region, si.region_name));
         }
         private void Delete_Click()
         {
-            Department si = (Department)DGdepartment.SelectedItem;
-            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_department + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            Region si = (Region)DGregion.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_region + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                string delete = "delete from departments where id_department = @id; commit;";
+                string delete = "delete from regions where id_region = @id; commit;";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(delete, conn);
-                cmd.Parameters.AddWithValue("@id", si.id_department);
+                cmd.Parameters.AddWithValue("@id", si.id_region);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Department с id " + si.id_department + " удалено");
+                MessageBox.Show("Region с id " + si.id_region + " удалено");
             }
         }
     }
