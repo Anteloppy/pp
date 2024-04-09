@@ -55,7 +55,6 @@ namespace pp.wins
             }
             DGdepartment.ItemsSource = departments;
         }
-
         private void DGdepartment_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace pp.edit_wins
@@ -31,7 +32,7 @@ namespace pp.edit_wins
         {
             InitializeComponent();
 
-            TBid_person.Text = Convert.ToString(id_person);
+            TBid.Text = Convert.ToString(id_person);
             TBlast_name.Text = last_name;
             TBname.Text = name;
             TBsurname.Text = surname;
@@ -104,31 +105,31 @@ namespace pp.edit_wins
 
         private void BEdit_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("editing " + TBid_person.Text);
+            MessageBox.Show("editing " + TBid.Text);
             string edit = "";
-            if (string.IsNullOrEmpty(TBlast_name.Text) || string.IsNullOrEmpty(TBname.Text) || string.IsNullOrEmpty(TBsurname.Text))
+            if (string.IsNullOrEmpty(TBlast_name.Text) || string.IsNullOrEmpty(TBname.Text) || string.IsNullOrEmpty(TBsurname.Text) || string.IsNullOrEmpty(TBbirth_date.Text) || string.IsNullOrEmpty(TBbank_account.Text) || string.IsNullOrEmpty(TBinn.Text) || string.IsNullOrEmpty(TBsnils.Text) || string.IsNullOrEmpty(TBemployment_date.Text) || string.IsNullOrEmpty(TBdismissal_date.Text))
             {
                 MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите продолжить? Есть пустые поля.", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    edit = "update personal_cards set";
+                    edit = "update personal_cards set ";
                     if (!string.IsNullOrEmpty(TBlast_name.Text))
                         edit += "last_name = '" + TBlast_name.Text + "', ";
                     else
-                        edit += "last_name = '', ";
+                        edit += "last_name = null, ";
                     if (!string.IsNullOrEmpty(TBname.Text))
                         edit += "name = '" + TBname.Text + "', ";
                     else
-                        edit += "name = '', ";
+                        edit += "name = null, ";
                     if (!string.IsNullOrEmpty(TBsurname.Text))
                         edit += "surname = '" + TBsurname.Text + "', ";
                     else
-                        edit += "surname = '', ";
+                        edit += "surname = null, ";
                     if (!string.IsNullOrEmpty(TBbirth_date.Text))
                         edit += "birth_date = '" + TBbirth_date.Text + "', ";
                     else
-                        edit += "birth_date = '', ";
+                        edit += "birth_date = null, ";
                     if (!string.IsNullOrEmpty(CBaddress.Text))
                         edit += "address_id = " + CBaddress.SelectedIndex + ", ";
                     else
@@ -140,31 +141,31 @@ namespace pp.edit_wins
                     if (!string.IsNullOrEmpty(TBbank_account.Text))
                         edit += "bank_account = " + TBbank_account.Text + "', ";
                     else
-                        edit += "bank_account = '', ";
+                        edit += "bank_account = null, ";
                     if (!string.IsNullOrEmpty(TBinn.Text))
                         edit += "INN = " + TBinn.Text + "', ";
                     else
-                        edit += "INN = '', ";
+                        edit += "INN = null, ";
                     if (!string.IsNullOrEmpty(TBsnils.Text))
                         edit += "SNILS = '" + TBsnils.Text + "', ";
                     else
-                        edit += "SNILS = '', ";
+                        edit += "SNILS = null, ";
                     if (!string.IsNullOrEmpty(TBbank_account.Text))
                         edit += "employment_date = '" + TBemployment_date.Text + "', ";
                     else
-                        edit += "employment_date = '', ";
+                        edit += "employment_date = null, ";
                     if (!string.IsNullOrEmpty(TBbank_account.Text))
                         edit += "dismissal_date = '" + TBdismissal_date.Text + "', ";
                     else
-                        edit += "dismissal_date =  '', ";
+                        edit += "dismissal_date =  null, ";
                     edit += "where id_person = @id; commit;";
                 }
                 else return;
             }
             else
-            { edit = "update personal_cards set last_name= '" + TBlast_name.Text + "', name = '" + TBname.Text + "', surname = '" + TBsurname.Text + "', birth_date = '" + TBbirth_date.Text + "', address_id = '" + CBaddress.SelectedIndex + "', bank_id = '" + CBbank.SelectedIndex + "', bank_account = '" + TBbank_account.Text + "', INN = '" + TBinn.Text + "', SNILS = '" + TBsnils.Text + "', employment_date = '" + TBemployment_date.Text + "', dismissal_date = '" + TBdismissal_date.Text + "' where id_person = @id; commit;"; }
+            edit = "update personal_cards set last_name= '" + TBlast_name.Text + "', name = '" + TBname.Text + "', surname = '" + TBsurname.Text + "', birth_date = '" + TBbirth_date.Text + "', address_id = '" + CBaddress.SelectedIndex + "', bank_id = '" + CBbank.SelectedIndex + "', bank_account = '" + TBbank_account.Text + "', INN = '" + TBinn.Text + "', SNILS = '" + TBsnils.Text + "', employment_date = '" + TBemployment_date.Text + "', dismissal_date = '" + TBdismissal_date.Text + "' where id_person = @id; commit;";
 
-            int id = Convert.ToInt32(TBid_person.Text);
+            int id = Convert.ToInt32(TBid.Text);
             
             MySqlConnection conn = new MySqlConnection(connectionString);
             conn.Open();
@@ -172,7 +173,7 @@ namespace pp.edit_wins
             cmd.Parameters.AddWithValue("@id", id);
             cmd.ExecuteNonQuery();
             conn.Close();
-            MessageBox.Show("карточка сотрудника с id " + id + " изменена");
+            MessageBox.Show("Personal card с id " + id + " изменено.");
         }
     }
 }

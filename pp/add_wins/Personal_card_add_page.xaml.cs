@@ -149,7 +149,7 @@ namespace pp.add_wins
             MySqlCommand cmd = new MySqlCommand(add, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
-            MessageBox.Show("карточка сотрудника добавлена");
+            MessageBox.Show("Personal card добавлено.");
         }
     }
 }

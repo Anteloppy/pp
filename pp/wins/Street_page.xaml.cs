@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pp.edit_wins;
 using pp.entities;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,6 @@ namespace pp.wins
             }
             DGstreet.ItemsSource = streets;
         }
-
         private void DGstreet_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
@@ -86,10 +86,10 @@ namespace pp.wins
         }
         private void Edit_Click()
         {
-            Region si = (Region)DGstreet.SelectedItem;
+            Street si = (Street)DGstreet.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            //ew.frameM.Navigate(new Street_edit_page(si.id_street, si.street_name));
+            ew.frameM.Navigate(new Street_edit_page(si.id_street, si.street_name));
         }
         private void Delete_Click()
         {

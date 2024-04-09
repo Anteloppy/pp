@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using pp.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +17,11 @@ using System.Windows.Shapes;
 namespace pp.add_wins
 {
     /// <summary>
-    /// Логика взаимодействия для Department_add_page.xaml
+    /// Логика взаимодействия для Street_add_page.xaml
     /// </summary>
-    public partial class Department_add_page : Page
+    public partial class Street_add_page : Page
     {
-        public Department_add_page()
+        public Street_add_page()
         {
             InitializeComponent();
         }
@@ -36,13 +35,13 @@ namespace pp.add_wins
                 return;
             }
             else
-            add = "insert into departments(department_name) values('" + TBname.Text + "'); commit;";
+                add = "insert into streets(street_name) values('" + TBname.Text + "'); commit;";
             MySqlConnection conn = new MySqlConnection(connectionString);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand(add, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
-            MessageBox.Show("Department добавлено.");
+            MessageBox.Show("Street добавлено.");
         }
     }
 }

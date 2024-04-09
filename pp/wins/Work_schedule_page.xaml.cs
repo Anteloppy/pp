@@ -58,7 +58,6 @@ namespace pp.wins
             }
             DGwork_schedule.ItemsSource = work_schedules;
         }
-
         private void DGwork_schedule_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
@@ -93,7 +92,7 @@ namespace pp.wins
             Work_schedule si = (Work_schedule)DGwork_schedule.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            //ew.frameM.Navigate(new Department_edit_page(si.id_work_schedule, si.schedule_name, si.working_days, si.days_off, si.working_hours_per_day));
+            ew.frameM.Navigate(new Work_schedule_edit_page(si.id_work_schedule, si.schedule_name, si.working_days, si.days_off, si.working_hours_per_day));
         }
         private void Delete_Click()
         {

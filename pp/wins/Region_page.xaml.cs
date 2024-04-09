@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pp.edit_wins;
 using pp.entities;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,6 @@ namespace pp.wins
             }
             DGregion.ItemsSource = regions;
         }
-
         private void DGregion_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
@@ -89,7 +89,7 @@ namespace pp.wins
             Region si = (Region)DGregion.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            //ew.frameM.Navigate(new Region_edit_page(si.id_region, si.region_name));
+            ew.frameM.Navigate(new Region_edit_page(si.id_region, si.region_name));
         }
         private void Delete_Click()
         {

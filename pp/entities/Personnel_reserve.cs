@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace pp.entities
 {
-    internal class Personel_reserve
+    internal class Personnel_reserve
     {
-        public int id_personel_reserve { get; set; }
+        public int id_personnel_reserve { get; set; }
         public string fk_person { get; set; }
         public string fk_structure { get; set; }
         public string reserve_entry_date { get; set; }

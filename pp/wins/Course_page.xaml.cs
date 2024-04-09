@@ -39,7 +39,7 @@ namespace pp.wins
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select id_course as id, course_name as name from courses", conn);
+                MySqlCommand cmd = new MySqlCommand("select id_course as id, course_name as name from qualification_courses", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -55,7 +55,6 @@ namespace pp.wins
             }
             DGcourse.ItemsSource = courses;
         }
-
         private void DGcourse_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
@@ -90,7 +89,7 @@ namespace pp.wins
             Course si = (Course)DGcourse.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            //ew.frameM.Navigate(new Course_edit_page(si.id_course, si.course_name));
+            ew.frameM.Navigate(new Course_edit_page(si.id_course, si.course_name));
         }
         private void Delete_Click()
         {

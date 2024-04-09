@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using pp.edit_wins;
 using pp.entities;
 using System;
 using System.Collections.Generic;
@@ -19,43 +18,44 @@ using System.Windows.Shapes;
 namespace pp.wins
 {
     /// <summary>
-    /// Логика взаимодействия для Position_page.xaml
+    /// Логика взаимодействия для District_page.xaml
     /// </summary>
-    public partial class Position_page : Page
+    public partial class District_page : Page
     {
-        public Position_page()
+        public District_page()
         {
             InitializeComponent();
             LoadData();
         }
-        private void Position_page_Activated(object sender, EventArgs e)
+        private void District_page_Activated(object sender, EventArgs e)
         {
             LoadData();
         }
         static string connectionString = "server=localhost; port=3306; database=employees_database; user=root; password=Nimda123;";
-        public void LoadData()
+        private void LoadData()
         {
-            List<Position> positions = new List<Position>();
+            List<District> districts = new List<District>();
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select id_position as id, position_name as name from positions", conn);
+                MySqlCommand cmd = new MySqlCommand("select d.id_district as id, d.district_name as name, r.region_name as region from districts as d left join regions as r on d.region_id = r.id_region", conn);
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Position record = new Position();
-                        record.id_position = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
-                        record.position_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
+                        District record = new District();
+                        record.id_district = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id");
+                        record.district_name = reader.IsDBNull(reader.GetOrdinal("name")) ? string.Empty : reader.GetString("name");
+                        record.fk_region_name = reader.IsDBNull(reader.GetOrdinal("region")) ? string.Empty : reader.GetString("region");
 
-                        positions.Add(record);
+                        districts.Add(record);
                     }
                 }
             }
-            DGposition.ItemsSource = positions;
+            DGdistrict.ItemsSource = districts;
         }
-        private void DGposition_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void DGdistrict_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var row = (DataGridRow)(sender as DataGrid).ItemContainerGenerator.ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext);
             if (row != null)
@@ -68,11 +68,11 @@ namespace pp.wins
                 else row.IsSelected = true;
             }
         }
-        private void DGposition_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void DGdistrict_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Delete_Click();
         }
-        private void DGposition_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DGdistrict_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit_Click();
         }
@@ -86,25 +86,25 @@ namespace pp.wins
         }
         private void Edit_Click()
         {
-            Position si = (Position)DGposition.SelectedItem;
+            District si = (District)DGdistrict.SelectedItem;
             EditWindow ew = new EditWindow();
             ew.Show();
-            ew.frameM.Navigate(new Position_edit_page(si.id_position, si.position_name));
+            //ew.frameM.Navigate(new District_edit_page(si.id_district, si.district_name));
         }
         private void Delete_Click()
         {
-            Position si = (Position)DGposition.SelectedItem;
-            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_position + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            District si = (District)DGdistrict.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Удалить строку с id " + si.id_district + "?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                string delete = "delete from positions where id_position = @id; commit;";
+                string delete = "delete from districts where id_district = @id; commit;";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(delete, conn);
-                cmd.Parameters.AddWithValue("@id", si.id_position);
+                cmd.Parameters.AddWithValue("@id", si.id_district);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Position с id " + si.id_position + " удалено");
+                MessageBox.Show("District с id " + si.id_district + " удалено");
             }
         }
     }
